@@ -1,0 +1,19 @@
+ARG PYTHON_VERSION="3.8.15"
+FROM python:${PYTHON_VERSION}
+
+# Install pip.
+RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py && \
+    python get-pip.py && \
+    pip3 install setuptools && \
+    rm get-pip.py
+RUN python3 -m pip install --upgrade pip
+
+RUN python3 -m pip install -U pyarrow==11.0.0 fastparquet==2023.2.0 gcsfs==2023.3.0 xgboost==1.7.0 dask-ml==2023.3.24 scikit-learn==1.2.2 pandas==1.5.3 bokeh
+
+RUN rm -rf inference
+
+RUN mkdir -p inference
+COPY * inference/
+WORKDIR inference
+
+ENTRYPOINT ["bash", "build_inference.sh"]
