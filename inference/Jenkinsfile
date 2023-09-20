@@ -21,14 +21,14 @@ pipeline {
         }
         stage("publish_inference"){
               steps{
-                sh "docker build -t inference-metric -f Dockerfile ."
+                sh "docker build -t inference-metric -f inference/Dockerfile ."
                 sh "docker tag inference-metric us-west1-docker.pkg.dev/inventory-solution-382204/fd-dask-docker/dask-mlinference-image:latest"
                 sh "docker push us-west1-docker.pkg.dev/inventory-solution-382204/fd-dask-docker/dask-mlinference-image:latest"
               }
         }
         stage("publish_inf_metrics"){
               steps{
-                sh "docker build -t inference-metric -f Dockerfile_metrics ."
+                sh "docker build -t inference-metric -f inference/Dockerfile_metrics ."
                 sh "docker tag inference-metric us-west1-docker.pkg.dev/inventory-solution-382204/fd-dask-docker/dask-mlinference-metric-image:latest"
                 sh "docker push us-west1-docker.pkg.dev/inventory-solution-382204/fd-dask-docker/dask-mlinference-metric-image:latest"
               }
